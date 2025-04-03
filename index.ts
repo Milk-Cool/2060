@@ -5,7 +5,7 @@ import strings from "./strings";
 
 const board = document.querySelector("#board");
 
-const TIME = 60;
+const TIME = 10;
 
 let xp = 0;
 let level = 0;
@@ -55,6 +55,18 @@ const reset = () => {
     countInterval = setInterval(count, 1000);
 };
 
+const save = () => {
+    localStorage.setItem("2060__save", `${level}:${xp}`);
+}
+
+const load = () => {
+    const raw = localStorage.getItem("2060__save");
+    if(!raw) return;
+    ([ level, xp ] = raw.split(":").map(Number));
+}
+
+load();
+
 const ANIMATION_DURATION = 100;
 const ANIMATION_TILE_WIDTH = 124.8;
 const ANIMATION_TILE_UNIT = "px";
@@ -74,7 +86,7 @@ const cycle = () => {
         xp -= levels[level];
         level++;
     }
-    console.log(xp);
+    save();
 
     reset();
     render();

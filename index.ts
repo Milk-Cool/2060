@@ -5,7 +5,7 @@ import strings from "./strings";
 
 const board = document.querySelector("#board");
 
-const TIME = 10;
+const TIME = 60;
 
 let xp = 0;
 let level = 0;

@@ -1,0 +1,99 @@
+:root {
+    --bg: #77eb34;
+    --mg: #bfe3aa;
+}
+
+* {
+    font-family: sans-serif;
+}
+
+#board {
+    position: fixed;
+    top: 50vh;
+    left: 50vw;
+    transform: translate(-50%, -50%);
+    width: 499.2px;
+    height: 499.2px;
+    background: var(--bg);
+    border-radius: 8px;
+    z-index: -2;
+    padding: 2.4px;
+    line-height: 0;
+}
+
+#name {
+    position: fixed;
+    top: calc(50vh + 300px);
+    left: 50vw;
+    transform: translate(-50%, -50%);
+}
+
+#time {
+    position: fixed;
+    top: calc(50vh - 300px);
+    left: calc(50vw + 270px);
+    transform: translateY(-50%);
+}
+
+#lvl {
+    position: fixed;
+    top: calc(50vh - 300px);
+    right: calc(50vw + 270px);
+    transform: translateY(-50%);
+    text-align: right;
+}
+
+#xp {
+    position: fixed;
+    top: calc(50vh - 400px);
+    left: calc(50vw);
+    transform: translateX(-50%);
+    text-align: center;
+}
+
+#time, #lvl {
+    height: 40px;
+    line-height: 40px;
+    vertical-align: middle;
+    margin: 0;
+}
+
+#board > .block, #board > .block > .tile {
+    width: 120px;
+    height: 120px;
+    border-radius: 8px;
+}
+
+#board > .block {
+    display: inline-block;
+    z-index: -1;
+    margin: 2.4px;
+    background: var(--mg);
+}
+
+#board > .block > .tile {
+    transition-duration: .1s;
+    z-index: 0;
+    position: absolute;
+
+    text-align: center;
+    line-height: 7.5em;
+    color: whitesmoke;
+}
+
+#progress {
+    position: fixed;
+    top: calc(50vh - 300px);
+    left: 50vw;
+    transform: translate(-50%, -50%);
+
+    width: 500px;
+    height: 40px;
+    background: gainsboro;
+    padding: 5px;
+}
+
+#progress > div {
+    height: 100%;
+    background: green;
+}

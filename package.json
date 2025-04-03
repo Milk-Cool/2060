@@ -1,0 +1,28 @@
+{
+  "name": "game2060",
+  "version": "0.1.0",
+  "description": "2048-like game that resets every 60 seconds",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Milk-Cool/2060.git"
+  },
+  "keywords": [
+    "2048",
+    "game"
+  ],
+  "author": "Milk_Cool",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Milk-Cool/2060/issues"
+  },
+  "homepage": "https://github.com/Milk-Cool/2060#readme",
+  "dependencies": {
+    "2048-engine": "^0.1.1",
+    "vite": "^6.2.4"
+  }
+}

@@ -43,8 +43,8 @@ const render = () => {
         }
     
     (document.querySelector("#lvl") as HTMLHeadingElement).innerText = `lvl ${level}`;
-    (document.querySelector("#xp") as HTMLHeadingElement).innerText = `${xp}/${levels[level]} xp`;
-    (document.querySelector("#progress > div") as HTMLDivElement).style.width = `${xp / levels[level] * 100}%`;
+    (document.querySelector("#xp") as HTMLHeadingElement).innerText = `${xp}/${levels[level] ?? "∞"} xp`;
+    (document.querySelector("#progress > div") as HTMLDivElement).style.width = `${xp / (levels[level] ?? Infinity) * 100}%`;
 }
 
 const reset = () => {
@@ -82,7 +82,7 @@ const msg = txt => {
 
 const cycle = () => {
     xp += game.currentState.score;
-    while(xp >= levels[level]) {
+    while(xp >= (levels[level] ?? Infinity)) {
         xp -= levels[level];
         level++;
     }

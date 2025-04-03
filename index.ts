@@ -80,6 +80,11 @@ countInterval = setInterval(count, 1000);
 const move = (direction: Direction) => {
     const oldState = { ...game.currentState };
     game.move(direction);
+
+    if(!game.currentState.status.hasPossibleMoves) {
+        reset();
+        render();
+    }
     const newState = { ...game.currentState };
 
     for(let x = 0; x < 4; x++)

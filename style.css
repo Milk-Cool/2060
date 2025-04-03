@@ -51,6 +51,31 @@
     text-align: center;
 }
 
+#msg {
+    position: fixed;
+    top: 50vh;
+    left: 50vw;
+    transform: translate(-50%, -50%);
+    background: transparent;
+    color: transparent;
+}
+
+@keyframes appear {
+    0%, 100% {
+        background: transparent;
+        color: transparent;
+    }
+    30%, 90% {
+        background: #f00d;
+        color: white;
+    }
+}
+
+#msg.appear {
+    animation-duration: 1s;
+    animation-name: appear;
+}
+
 #time, #lvl {
     height: 40px;
     line-height: 40px;

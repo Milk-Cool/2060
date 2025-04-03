@@ -1,6 +1,7 @@
 import { createGame, Direction, Game } from "2048-engine";
 
 import levels from "./levels";
+import strings from "./strings";
 
 const board = document.querySelector("#board");
 
@@ -11,6 +12,7 @@ let level = 0;
 let seconds = TIME;
 
 let countInterval: number;
+let renderTimeout: number | null = null;
 
 for(let _ = 0; _ < 16; _++) {
     const div = document.createElement("div");
@@ -41,17 +43,30 @@ const render = () => {
         }
     
     (document.querySelector("#lvl") as HTMLHeadingElement).innerText = `lvl ${level}`;
-    (document.querySelector("#xp") as HTMLHeadingElement).innerText = `${xp}/${levels[level]}`;
+    (document.querySelector("#xp") as HTMLHeadingElement).innerText = `${xp}/${levels[level]} xp`;
     (document.querySelector("#progress > div") as HTMLDivElement).style.width = `${xp / levels[level] * 100}%`;
 }
 
 const reset = () => {
     game = createGame();
+
+    seconds = TIME;
+    clearInterval(countInterval);
+    countInterval = setInterval(count, 1000);
 };
 
 const ANIMATION_DURATION = 100;
 const ANIMATION_TILE_WIDTH = 124.8;
 const ANIMATION_TILE_UNIT = "px";
+
+const MSG_ANIMATION_DURATION = 1000;
+
+const msg = txt => {
+    const h1 = document.querySelector("#msg") as HTMLHeadingElement;
+    h1.innerText = txt;
+    h1.classList.add("appear");
+    setTimeout(() => h1.classList.remove("appear"), MSG_ANIMATION_DURATION);
+}
 
 const cycle = () => {
     xp += game.currentState.score;
@@ -63,10 +78,6 @@ const cycle = () => {
 
     reset();
     render();
-
-    seconds = TIME;
-    clearInterval(countInterval);
-    countInterval = setInterval(count, 1000);
 };
 
 const count = () => {
@@ -79,9 +90,15 @@ countInterval = setInterval(count, 1000);
 
 const move = (direction: Direction) => {
     const oldState = { ...game.currentState };
+    if(renderTimeout !== null) {
+        render();
+        clearTimeout(renderTimeout);
+    }
+
     game.move(direction);
 
     if(!game.currentState.status.hasPossibleMoves) {
+        msg(strings.gameOverNoXP);
         reset();
         render();
     }
@@ -101,8 +118,9 @@ const move = (direction: Direction) => {
                 }
         }
 
-    setTimeout(() => {
+    renderTimeout = setTimeout(() => {
         render();
+        renderTimeout = null;
     }, ANIMATION_DURATION);
 }
 

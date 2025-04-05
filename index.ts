@@ -2,6 +2,7 @@ import { createGame, Direction, Game } from "2048-engine";
 
 import levels from "./levels";
 import strings from "./strings";
+import { PowerupCallback, PowerupCallbackTile, powerups } from "./powerups";
 
 const board = document.querySelector("#board");
 
@@ -13,6 +14,9 @@ let seconds = TIME;
 
 let countInterval: number;
 let renderTimeout: number | null = null;
+
+let lastCallback: PowerupCallbackTile | null = null;
+let disabledPowerups: number[] = [];
 
 for(let _ = 0; _ < 16; _++) {
     const div = document.createElement("div");
@@ -39,6 +43,14 @@ const render = () => {
             div.classList.add("tile");
             div.style.background = `hsl(98, 83%, ${20 + Math.min(20, 2 * Math.log2(value))}%)`;
             div.innerText = value.toString();
+
+            div.addEventListener("click", () => {
+                if(lastCallback === null) return;
+                game.currentState = lastCallback(game.currentState, x, y);
+                lastCallback = null;
+                render();
+            });
+
             blocks[n].appendChild(div);
         }
     
@@ -88,9 +100,50 @@ const cycle = () => {
     }
     save();
 
+    updatePowerups();
+
     reset();
     render();
 };
+
+const powerupContainer = document.querySelector("#powerups") as HTMLDivElement;
+
+const updatePowerups = () => {
+    disabledPowerups = [];
+    for(const child of Array.from(powerupContainer.children))
+        child.remove();
+
+    const header = document.createElement("h1");
+    header.innerText = "Powerups";
+    powerupContainer.appendChild(header); 
+
+    for(let powerupI = 0; powerupI < powerups.length; powerupI++) {
+        const powerup = powerups[powerupI];
+        const powerupDiv = document.createElement("div");
+        powerupDiv.innerText = powerup.name;
+        if(level < powerup.minLevel)
+            powerupDiv.classList.add("disabled")
+        // TODO: handle disabling powerups per game
+        else if(powerup.type === "simple")
+            powerupDiv.addEventListener("click", () => {
+                if(disabledPowerups.includes(powerupI)) return;
+                game.currentState = powerup.callback(game.currentState);
+                render();
+                disabledPowerups.push(powerupI);
+                powerupDiv.classList.add("disabled");
+            });
+        else
+            powerupDiv.addEventListener("click", () => {
+                if(disabledPowerups.includes(powerupI)) return;
+                lastCallback = powerup.callback;
+                disabledPowerups.push(powerupI);
+                powerupDiv.classList.add("disabled");
+            });
+        powerupContainer.appendChild(powerupDiv);
+    }
+};
+
+updatePowerups();
 
 const count = () => {
     seconds--;

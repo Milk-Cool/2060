@@ -58,6 +58,7 @@
     transform: translate(-50%, -50%);
     background: transparent;
     color: transparent;
+    pointer-events: none;
 }
 
 @keyframes appear {
@@ -104,6 +105,7 @@
     text-align: center;
     line-height: 7.5em;
     color: whitesmoke;
+    cursor: pointer;
 }
 
 #progress {
@@ -121,4 +123,36 @@
 #progress > div {
     height: 100%;
     background: green;
+}
+
+#progress > div, #progress {
+    border-radius: 8px;
+}
+
+#powerups {
+    position: fixed;
+    top: 50vh;
+    right: calc(50vw + 300px);
+    transform: translateY(-50%);
+    width: 200px;
+    text-align: center;
+
+    background: gainsboro;
+    padding: 5px;
+}
+
+#powerups > div {
+    background: green;
+    color: white;
+    cursor: pointer;
+    margin-top: 8px;
+    padding: 8px;
+}
+
+#powerups > div.disabled {
+    background: gray;
+}
+
+#powerups > div, #powerups {
+    border-radius: 8px;
 }
